@@ -37,10 +37,10 @@
       </div>
       <div class="recommend-body">
         <!--swiper-->
-        <swiper :options ="swiperOption">
+        <swiper :options="swiperOption">
           <swiper-slide v-for=" (item ,index) in recommendGoods" :key="index">
             <div class="recommend-item">
-              <img :src="item.image" width="80%" />
+              <img :src="item.image" width="80%"/>
               <div>{{item.goodsName}}</div>
               <div>￥{{item.price}} (￥{{item.mallPrice}})</div>
             </div>
@@ -48,52 +48,32 @@
         </swiper>
       </div>
     </div>
-    <div class="floor">
-      <div class="floor-anomaly">
-        <div class="floor-one">
-          <img :src="floor1_0.image" width="100%"/>
-        </div>
-        <div class="floor-two">
-          <div >
-            <img :src="floor1_1.image" width="100%"/>
-          </div>
-          <div>
-            <img :src="floor1_2.image" width="100%"/>
-          </div>
-        </div>
-      </div>
-      <div class="floor-rule">
-        <div v-for="(item ,index) in floor1.slice(3)" :key="index">
-          <img :src="item.image" width="100%"/>
-        </div>
-      </div>
-    </div>
+    <FloorComponent :floorData="floor1" :floorTitle="floorName.floor1"></FloorComponent>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
-  import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+  import {Swiper, SwiperSlide} from 'vue-awesome-swiper'
   import 'swiper/css/swiper.css'
-  import SwiperDefault from "../swiper/SwiperDefault";
-  import SwiperDefault2 from "../swiper/SwiperDefault2";
-  import SwiperDefault3 from "../swiper/SwiperDefault3";
-  import SwiperText from "../swiper/SwiperText";
+  // import SwiperDefault from "../swiper/SwiperDefault";
+  // import SwiperDefault2 from "../swiper/SwiperDefault2";
+  // import SwiperDefault3 from "../swiper/SwiperDefault3";
+  // import SwiperText from "../swiper/SwiperText";
+  import FloorComponent from '../FloorComponent'
   export default {
     data() {
       return {
-        swiperOption:{
-          slidesPerView:3
+        swiperOption: {
+          slidesPerView: 3
         },
         locationIcon: require('../../assets/images/locationIcon.png'),
         bannerPicArray: [],
         category: [],
-        adBanner:[],
-        recommendGoods:[],
-        floor1:[],
-        floor1_0:{},
-        floor1_1:{},
-        floor1_2:{},
+        adBanner: [],
+        recommendGoods: [],
+        floorName:[],
+        floor1: [],
       }
     },
     created() {
@@ -107,10 +87,8 @@
           this.adBanner = response.data.data.advertesPicture //获得广告图片
           this.bannerPicArray = response.data.data.slides   //轮播图片
           this.recommendGoods = response.data.data.recommend  //推荐商品
+          this.floorName = response.data.data.floorName        //楼层名称
           this.floor1 = response.data.data.floor1  //楼层信息
-          this.floor1_0 = this.floor1[0]
-          this.floor1_1 = this.floor1[1]
-          this.floor1_2 = this.floor1[2]
         }
       }).catch((error) => {
         console.log(error)
@@ -119,10 +97,11 @@
     components: {
       Swiper,
       SwiperSlide,
-      SwiperDefault,
-      SwiperDefault2,
-      SwiperDefault3,
-      SwiperText
+      FloorComponent
+      // SwiperDefault,
+      // SwiperDefault2,
+      // SwiperDefault3,
+      // SwiperText
     },
   }
 </script>
@@ -153,7 +132,7 @@
 
   .swipwer-area {
     max-height: 9rem;
-    overflow:hidden;
+    overflow: hidden;
     clear: both;
   }
 
@@ -164,7 +143,7 @@
     font-size: 12px;
     display: flex;
     flex-direction: row;
-    flex-wrap:nowrap;
+    flex-wrap: nowrap;
   }
 
   .type-bar div {
@@ -172,63 +151,67 @@
     font-size: 12px;
     text-align: center;
   }
-  .recommend-area{
+
+  .recommend-area {
     background-color: #fff;
     margin-top: .3rem;
   }
-  .recommend-title{
-    border-bottom:1px solid #eee;
-    font-size:14px;
-    padding:.2rem;
-    color:#e5017d;
+
+  .recommend-title {
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    padding: .2rem;
+    color: #e5017d;
   }
 
-  .recommend-body{
+  .recommend-body {
     border-bottom: 1px solid #eee;
   }
 
-  .recommend-item{
-    width:99%;
+  .recommend-item {
+    width: 99%;
     border-right: 1px solid #eee;
     font-size: 12px;
     text-align: center;
   }
 
-  .floor-anomaly{
-    display: flex;
-    flex-direction:row;
-    background-color: #fff;
-    border-bottom:1px solid #ddd;
-  }
-
-  .floor-anomaly div{
-    width:10rem;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-  }
-
-  .floor-one{
-    border-right:1px solid #ddd;
-  }
-
-  .floor-two div{
-    border-bottom:1px solid #ddd;
-  }
-
-  .floor-rule{
+  .floor-anomaly {
     display: flex;
     flex-direction: row;
-    flex-wrap:wrap;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .floor-anomaly div {
+    width: 10rem;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+  }
+
+  .floor-one {
+    border-right: 1px solid #ddd;
+  }
+
+  .floor-two div {
+    border-bottom: 1px solid #ddd;
+  }
+
+  .floor-rule {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     background-color: #fff;
 
   }
-  .floor-rule div{
+
+  .floor-rule div {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    width:10rem;
-    border-bottom:1px solid #ddd;
+    width: 10rem;
+    border-bottom: 1px solid #ddd;
   }
-  .floor-rule div:nth-child(odd){
+
+  .floor-rule div:nth-child(odd) {
     border-right: 1px solid #ddd;
   }
 
