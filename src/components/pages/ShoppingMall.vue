@@ -42,7 +42,7 @@
             <div class="recommend-item">
               <img :src="item.image" width="80%"/>
               <div>{{item.goodsName}}</div>
-              <div>￥{{item.price}} (￥{{item.mallPrice}})</div>
+              <div>￥{{item.price | moneyFilter}} (￥{{item.mallPrice | moneyFilter}})</div>
             </div>
           </swiper-slide>
         </swiper>
@@ -54,13 +54,15 @@
 
 <script>
   import axios from 'axios'
+  import url from '@/serviceAPI.config.js'
   import {Swiper, SwiperSlide} from 'vue-awesome-swiper'
   import 'swiper/css/swiper.css'
+  import FloorComponent from '../FloorComponent'
+  import { toMoney } from '@/filter/moneyFilter.js'
   // import SwiperDefault from "../swiper/SwiperDefault";
   // import SwiperDefault2 from "../swiper/SwiperDefault2";
   // import SwiperDefault3 from "../swiper/SwiperDefault3";
   // import SwiperText from "../swiper/SwiperText";
-  import FloorComponent from '../FloorComponent'
   export default {
     data() {
       return {
@@ -76,9 +78,14 @@
         floor1: [],
       }
     },
+    filters:{
+      moneyFilter(money){
+        return toMoney(money)
+      }
+    },
     created() {
       axios({
-        url: 'https://easy-mock.com/mock/5ea80920345da32ea0fae627/mini-shop-vue/index',
+        url: url.getShoppingMailInfo,
         method: 'get',
       }).then(response => {
         console.log(response)

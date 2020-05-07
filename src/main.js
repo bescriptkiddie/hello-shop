@@ -4,8 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-import { Button, Row, Col ,Search , Swipe , SwipeItem ,Lazyload } from 'vant'
-Vue.use(Button).use(Row).use(Col).use(Search).use(Swipe).use(SwipeItem).use(Lazyload)
+import { Button, Row, Col, Search,  Swipe,  SwipeItem, Lazyload, Field, NavBar} from 'vant'
+Vue.use(Button).use(Row).use(Col).use(Search).use(Swipe).use(SwipeItem).use(Lazyload).use(Field).use(NavBar)
 
 // Vue.use(VueAwesomeSwiper, /* { default global options } */)
 Vue.config.productionTip = false
