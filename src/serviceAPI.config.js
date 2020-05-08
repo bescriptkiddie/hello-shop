@@ -6,3 +6,4 @@ const url ={
   registerUser : LOCALURL + 'user/register', //用户注册接口
 }
 module.exports = url
+
