@@ -15,6 +15,7 @@
         placeholder="请输入用户名"
         required
         @click-icon="username = ''"
+        :error-message="usernameErrorMsg"
       />
 
       <van-field
@@ -23,9 +24,10 @@
         label="密码"
         placeholder="请输入密码"
         required
+        :error-message="passwordErrorMsg"
       />
       <div class="register-button">
-        <van-button type="primary" @click="registerAction" size="large">马上注册</van-button>
+        <van-button type="primary" @click="registerAction" :loading="openLoading" size="large">马上注册</van-button>
       </div>
     </div>
 
@@ -56,6 +58,7 @@
         // console.log(this.axiosRegisterUser())
       },
       axiosRegisterUser() {
+        this.openLoading = true,
         axios({
           url: url.registerUser,
           method: 'post',
@@ -69,7 +72,7 @@
             //如果返回code为200，代表注册成功，我们给用户作Toast提示
             if (response.data.code == 200) {
               Toast.success(response.data.message)
-              this.$router.push('/')
+              this.$router.push('/login')
             } else {
               console.log(response.data.message)
               Toast.fail('注册失败')
@@ -85,7 +88,7 @@
       checkForm() {
         let isOk = true
         if (this.username.length < 5) {
-          this.usernameErrorMsg = "用户名不能小于5位"
+          this.usernameErrorMsg = "用户名不能少于5位"
           isOk = false
         } else {
           this.usernameErrorMsg = ''

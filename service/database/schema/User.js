@@ -25,12 +25,13 @@ userSchema.pre('save', function(next){
   })
 })
 
-userSchema.methods={
+userSchema.methods = {
+  //密码比对的方法
   comparePassword:(_password,password)=>{
     return new Promise((resolve,reject)=>{
-      bcrypt.compare(_password,password,(err,isMatch)=>{
-        if(!err) resolve(isMatch)
-        else reject(err)
+      bcrypt.compare(_password,password,(error,isMatch)=>{
+        if(!error) resolve(isMatch)
+        else reject(error)
       })
     })
   }

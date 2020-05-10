@@ -49,6 +49,20 @@
       </div>
     </div>
     <FloorComponent :floorData="floor1" :floorTitle="floorName.floor1"></FloorComponent>
+    <FloorComponent :floorData="floor2" :floorTitle="floorName.floor2"></FloorComponent>
+    <FloorComponent :floorData="floor3" :floorTitle="floorName.floor3"></FloorComponent>
+    <!--Hot Area-->
+    <div class="hot-area">
+      <div class="hot-title">热卖商品</div>
+      <div class="hot-goods">
+        <!--这里需要一个list组件-->
+        <van-row gutter="20">
+          <van-col span="12" v-for="(item,index) in hotGoods" :key="index">
+            <GoodsComponent :goodsId="item.goodsId" :goodsImage="item.image" :goodsName="item.name" :goodsPrice="item.price"></GoodsComponent>
+          </van-col>
+        </van-row>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -57,8 +71,10 @@
   import url from '@/serviceAPI.config.js'
   import {Swiper, SwiperSlide} from 'vue-awesome-swiper'
   import 'swiper/css/swiper.css'
-  import FloorComponent from '../FloorComponent'
+  import FloorComponent from '../floorComponent'
   import { toMoney } from '@/filter/moneyFilter.js'
+  import GoodsComponent from '../goodsInfoComponent'
+
   // import SwiperDefault from "../swiper/SwiperDefault";
   // import SwiperDefault2 from "../swiper/SwiperDefault2";
   // import SwiperDefault3 from "../swiper/SwiperDefault3";
@@ -76,6 +92,9 @@
         recommendGoods: [],
         floorName:[],
         floor1: [],
+        floor2:[],
+        floor3:[],
+        hotGoods:[]
       }
     },
     filters:{
@@ -95,7 +114,10 @@
           this.bannerPicArray = response.data.data.slides   //轮播图片
           this.recommendGoods = response.data.data.recommend  //推荐商品
           this.floorName = response.data.data.floorName        //楼层名称
-          this.floor1 = response.data.data.floor1  //楼层信息
+          this.floor1 = response.data.data.floor1              //楼层1数据
+          this.floor2 = response.data.data.floor2              //楼层2数据
+          this.floor3 = response.data.data.floor3              //楼层3数据
+          this.hotGoods = response.data.data.hotGoods              //楼层3数据
         }
       }).catch((error) => {
         console.log(error)
@@ -104,7 +126,8 @@
     components: {
       Swiper,
       SwiperSlide,
-      FloorComponent
+      FloorComponent,
+      GoodsComponent
       // SwiperDefault,
       // SwiperDefault2,
       // SwiperDefault3,
@@ -221,5 +244,10 @@
   .floor-rule div:nth-child(odd) {
     border-right: 1px solid #ddd;
   }
-
+  .hot-area{
+    text-align: center;
+    font-size:14px;
+    height: 1.8rem;
+    line-height:1.8rem;
+  }
 </style>
